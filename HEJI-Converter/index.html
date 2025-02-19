@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Ratio to HEJI 2020</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div id="header"></div>
+  <h1>Ratio to HEJI Notation</h1>
+  <p>Andrew Kahler - March 8, 2023</p>
+  <p>Made with <a href="https://replit.com">Replit</a></p>
+  </div>
+  <div id="left">
+    <p id="out"><span id="acc"></span><span id="name">&#9836;</span>
+    </p>
+    <p><b>Ratio: </b><span id="oratio">?</span></p>
+    <p><b>Cents: </b><span id="value">?</span></p>
+    <p><b>Cents (Normalized): </b><span id="ovalue">?</span></p>
+    <p><b>Prime Factorization: </b><span id="primes">?</span></p>
+    <p><b>Tuning (12EDO): </b><span id="tuner">?</span></p>
+    <p><b>Hertz: </b><span id="hertz">?</span></p>
+  </div>
+  <div id="right">
+    <i>A4 Hertz tuning</i><br>
+    <input type="number" min="1" step="0.2" value="440" id="hz" /><br>
+    <i>tonic pitch</i><br>
+    <input type="number" min="1" step="1" value="1" id="numt" /><br>
+    <input type="number" min="1" step="1" value="1" id="dent" /><br>
+    <i>offset pitch</i><br>
+    <input type="number" min="1" step="1" value="1" id="num" /><br>
+    <input type="number" min="1" step="1" value="1" id="den" /><br>
+    <button onclick="m(2)">Double Up</button>
+    <button onclick="flip()">Invert</button>
+    <button onclick="comb()">Set <i>tonic</i> to <i>tonic</i> &times; <i>offset</i></button>
+    <button onclick="r()">Reset</button><br>
+    <button onclick="w = conv();if (w===0) {error();}" style="font-size:150%;font-weight:bold;">Convert</button>
+    <br><br>
+    <br>
+    <i>Pythagorean diatonic</i><br>
+    <button onclick="set(1,1)">P1</button>
+    <button onclick="set(9,8)">M2</button>
+    <button onclick="set(81,64)">M3</button>
+    <button onclick="set(4,3)">P4</button><br>
+    <button onclick="set(3,2)">P5</button>
+    <button onclick="set(27,16)">M6</button>
+    <button onclick="set(243,128)">M7</button>
+    <button onclick="set(2,1)">P8</button>
+    <br>
+    <i>commas/symbols</i><br>
+    <button onclick="setadd(2187,2048)"><span class="acc">v</span></button>
+    <button onclick="setadd(2048,2187)"><span class="acc">e</span></button>
+    <button onclick="setadd(81,80)"><span class="acc">o</span></button>
+    <button onclick="setadd(80,81)"><span class="acc">m</span></button>
+    <button onclick="setadd(64,63)"><span class="acc">&gt;</span></button>
+    <button onclick="setadd(63,64)"><span class="acc">&lt;</span></button>
+    <button onclick="setadd(33,32)"><span class="acc">4</span></button>
+    <button onclick="setadd(32,33)"><span class="acc">5</span></button>
+    <button onclick="setadd(27,26)"><span class="acc">9</span></button>
+    <button onclick="setadd(26,27)"><span class="acc">0</span></button><br>
+    <button onclick="setadd(2187,2176)"><span class="acc">;</span></button>
+    <button onclick="setadd(2176,2187)"><span class="acc">:</span></button>
+    <button onclick="setadd(513,512)"><span class="acc">/</span></button>
+    <button onclick="setadd(512,513)"><span class="acc">*</span></button>
+    <button onclick="setadd(736,729)"><span class="acc">3</span></button>
+    <button onclick="setadd(729,736)"><span class="acc">6</span></button>
+    <button onclick="setadd(261,256)"><span class="acc">2</span></button>
+    <button onclick="setadd(256,261)"><span class="acc">7</span></button>
+    <button onclick="setadd(32,31)"><span class="acc">8</span></button>
+    <button onclick="setadd(31,32)"><span class="acc">1</span></button><br>
+    <button onclick="setadd(37,36)"><span class="acc">á</span></button>
+    <button onclick="setadd(36,37)"><span class="acc">à</span></button>
+    <button onclick="setadd(82,81)"><span class="acc">+</span></button>
+    <button onclick="setadd(81,82)"><span class="acc">-</span></button>
+    <button onclick="setadd(129,128)"><span class="acc">é</span></button>
+    <button onclick="setadd(128,129)"><span class="acc">è</span></button>
+    <button onclick="setadd(752,729)"><span class="acc">í</span></button>
+    <button onclick="setadd(729,752)"><span class="acc">ì</span></button><br>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
