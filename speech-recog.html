@@ -1,0 +1,101 @@
+<html lang="en-US">
+
+<head>
+	<style>
+		body,button,select,textarea,input {background-color:black;}
+		* {color:white;font-family:'Verdana','Arial',sans-serif;}
+		#text {font-family:'Arial',sans-serif;font-size:24px;}
+	</style>
+</head>
+
+<body>
+	<h1>Speech Recognition API Test</h1>
+	
+	<div>
+		<select id="lang">
+			<option value="en-US" selected>English (US)</option>
+			<option value="en-GB">English (UK)</option>
+			<option value="fr-FR">French (France)</option>
+			<option value="es-MX">Spanish (Mexico)</option>
+			<option value="de-DE">German (Germany)</option>
+			<option value="ru">Russian</option>
+			<option value="hi-IN">Hindi (India)</option>
+			<option value="ar-EG">Arabic (Egypt)</option>
+			<option value="zh-Hant-TW">Chinese (Taiwan)</option>
+			<option value="zh-Hans-CN">Chinese (China)</option>
+			<option value="zh-yue">Cantonese (Hong Kong)</option>
+			<option value="ja">Japanese</option>
+			<option value="ko">Korean</option>
+			<option value="xx">Other</option>
+		</select>
+		<input id="langBox" style="width:5em;" placeholder="code" hidden />
+		<button id="btnStartRecord">START</button>
+		<button id="btnStopRecord">STOP</button>
+		<button id="clearText">CLEAR</button>
+    </div><br>
+	
+	<div>
+		STATUS: <span id="statusText">Unstarted</span>
+	</div><br>
+
+    <div>
+		<textarea id="text" cols="60" rows="20"></textarea>
+    </div>
+	
+	<script>
+  
+		const btnStartRecord = document.getElementById('btnStartRecord');
+		const btnStopRecord = document.getElementById('btnStopRecord');
+		const btnClearText = document.getElementById('clearText');  
+		const statusText = document.getElementById('statusText');
+		const continuousBox = document.getElementById('continuousBox');
+		const text = document.getElementById('text');
+		const langSelect = document.getElementById('lang');
+		const langBox = document.getElementById('langBox');
+		let recognition = new webkitSpeechRecognition();
+		recognition.lang = 'en-US'; console.log('switched language to en-US (by default)');
+		recognition.continuous = true;
+		recognition.interimResults = false;
+		recognition.onresult = (event) => {
+			const results = event.results;
+			console.log('results:',results);
+			const sentence = results[results.length - 1][0].transcript;
+			text.value += sentence;
+		}
+		recognition.onend = (event) => {
+			console.log('the microphone stops listening');
+			statusText.innerHTML = "Inactive";
+		}
+		recognition.onerror = (event) => {
+			console.log(event.error);
+		}
+		btnStartRecord.addEventListener('click', () => {
+			recognition.start();
+			statusText.innerHTML = "Started";
+			console.log('started');
+		});
+		btnStopRecord.addEventListener('click', () => {
+			recognition.abort();
+		});
+		btnClearText.addEventListener('click', () => {
+			text.value = '';
+		});
+		langSelect.onchange = () => {
+			if (langSelect.value == 'xx') {
+				langBox.hidden = false;
+				recognition.lang = langBox.value;
+			} else {
+				langBox.hidden = true;
+				recognition.lang = langSelect.value;
+				console.log('language set to ' + langSelect.value);
+			};
+		};
+		langBox.onchange = () => {
+			recognition.lang = langBox.value;
+			console.log('language set to ' + langBox.value);
+		};
+	  
+	</script>
+</body>
+
+</html>
