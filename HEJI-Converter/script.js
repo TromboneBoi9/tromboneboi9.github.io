@@ -48,6 +48,9 @@ function subArray(arr1, arr2) {
 	return result;
 }
 
+//ratio to cents
+function ratioInCents(r) {return 1200*Math.log2(r);};
+
 //notes
 const notes = ["A","A&sharp;/B&flat;","B","C","C&sharp;/D&flat;","D","D&sharp;/E&flat;","E","F","F&sharp;/G&flat;","G","G&sharp;/A&flat;"];
 
@@ -102,11 +105,19 @@ function conv() {
 			cfString += String(primes[i]) + "<sup>" + String(cf[i]) + "</sup>";
 		};
 	};
+	if (cf == 0) {cfString = "?";};
 	if (cfString == "") {cfString = "1";};
-	document.getElementById("primes").innerHTML = cfString; 
-	document.getElementById("tuner").innerHTML = notes[Math.round(ov / 100)] + " detuned " + (100 * ((ov / 100) - Math.round(ov / 100))).toFixed(2) + "&cent;";
-	h = document.getElementById("hz").value * (n / d);
+	document.getElementById("primes").innerHTML = cfString;
+	// document.getElementById("tuner").innerHTML = notes[Math.round(ov / 100)] + " detuned " + (100 * ((ov / 100) - Math.round(ov / 100))).toFixed(2) + "&cent;";
+	h = document.getElementById("refhz").value * (n / d);
 	document.getElementById("hertz").innerHTML = h.toFixed(8);
+	var refcent = ((ratioInCents(h / 440) % 1200) + 1200) % 1200;
+	var refstep = Math.round(refcent/100);
+	if (Math.abs((refcent - (refstep * 100))) == (refcent - (refstep * 100))) {
+		document.getElementById("tuner").innerHTML = notes[refstep] + " +" + (refcent - (refstep * 100)).toFixed(2) + "&cent;";
+	} else {
+		document.getElementById("tuner").innerHTML = notes[refstep] + " " + (refcent - (refstep * 100)).toFixed(2) + "&cent;";
+	};
 	if (nf===0 || df===0) {alert("Your ratio uses factors larger than HEJI currently supports\nProper notation will not be displayed.");return 0;}
 
 	//ACTUAL HEJI
@@ -223,20 +234,23 @@ function conv() {
 	} else if (tarr[14] > 0) {
 		while (tarr[14] != 0) {tarr[14]--;f+=6;c47++;}
 	}
+	
+	//fifth offset, needed later
+	var fo = Number(document.getElementById("ref").value);
 
 	//error check
-	if (f>23 || f<-18) {alert("Your ratio has too many fifths\nProper notation will not be displayed.");return 0;}
+	if (f+fo>23 || f+fo<-18) {alert("This tool can only display notes up to double sharp and double flat\nProper notation will not be displayed.");return 0;}
 	if (c5>4 || c5<-4) {alert("Your ratio has too many syntonic commas\nProper notation will not be displayed.");return 0;}
 	if (c7>2 || c7<-2) {alert("Your ratio has too many septimal commas\nProper notation will not be displayed.");return 0;}
 	
 	//displaying
-	document.getElementById("name").innerHTML = fifths[f+18][0];
+	document.getElementById("name").innerHTML = fifths[f+fo+18][0];
 	var accSym = "";
-	if (fifths[f+18][1] == "E") {accSym = symConv[0][c5+4];}
-	else if (fifths[f+18][1] == "e") {accSym = symConv[1][c5+4];}
-	else if (fifths[f+18][1] == "n") {accSym = symConv[2][c5+4];}
-	else if (fifths[f+18][1] == "v") {accSym = symConv[3][c5+4];}
-	else if (fifths[f+18][1] == "V") {accSym = symConv[4][c5+4];}
+	if (fifths[f+fo+18][1] == "E") {accSym = symConv[0][c5+4];}
+	else if (fifths[f+fo+18][1] == "e") {accSym = symConv[1][c5+4];}
+	else if (fifths[f+fo+18][1] == "n") {accSym = symConv[2][c5+4];}
+	else if (fifths[f+fo+18][1] == "v") {accSym = symConv[3][c5+4];}
+	else if (fifths[f+fo+18][1] == "V") {accSym = symConv[4][c5+4];}
 	else {}; //bruh really what happened??
 	if (c7 == -2) {accSym = "," + accSym;} //7
 	else if (c7 == -1) {accSym = "&lt;" + accSym;}
@@ -298,6 +312,9 @@ function conv() {
 	} else if (c47 < 0) {
 		for (k = 0; k > c47; k--) {accSym = "&igrave;" + accSym;};
 	} else {};
+	if ((accSym.charAt(accSym.length - 1) == "n") && (accSym.length != 1)) {
+		accSym = accSym.split("n")[0];
+	};
 	document.getElementById("acc").innerHTML = accSym;
 
 	//success :D

@@ -3,7 +3,7 @@
 #out {font-size:36pt;font-weight:bold;}
 #acc {font-family:heji;font-size:36pt;}
 body {height:100%;width:99%;font-family:'Verdana','Arial',sans-serif;text-align:center;background-color:black;color:white;}
-input {width:200px;text-align:center;background-color:white;color:black;}
+input,select {width:200px;text-align:center;background-color:white;color:black;}
 #header {position:absolute;top:0%;left:0%;height:175px;width:100%;}
 #left {position:absolute;bottom:0%;left:0%;height:calc(100% - 175px);width:50%;}
 #right {position:absolute;bottom:0%;right:0%;height:calc(100% - 175px);width:50%;}
