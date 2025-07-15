@@ -1,0 +1,144 @@
+<html lang="en-US">
+
+<head>
+	<title>Spelinn Refuwrm</title>
+	<style>
+		body,input {background-color:black;}
+		a, a * {color:red;}
+		* {color:white;font-family:'Times New Roman','Times',serif;}
+		#input,#output {font-size:16pt;}
+	</style>
+</head>
+
+<body>
+	<h1>Standard English Orthography to &ldquo;Typewriter Spelling Reform&rdquo;</h1>
+	<p>July 14, 2025</p>
+	<br>
+	<div style="border:1px solid white;padding:10px;">
+	<input id="input" value="" placeholder="input"/>
+	<br><br>
+	<span id="output"><i>Awaiting input.</i></span>
+	</div>
+	<p>The <a href="https://tilde.town/~tromboneboi9/spelling.html"><i>Typewriter Spelling Reform</i></a> is a simple and very multigraphic American English spelling reform that I devised entirely in front of a typewriter; it only uses 24 of the 26 basic Latin letters.</p>
+	<p>This converter works by shoving the given input into Uberduck's <a href="https://uberduck.readme.io/reference/g2p_g2p_get">English to ARPAbet API</a> to get phonemic data, and the output <a href="en.wikipedia.org/wiki/ARPAbet">ARPAbet</a> is then processed, rather <i>imperfectly</i>, into the spelling reform.</p>
+	<p>Please note:</p>
+	<ul>
+		<li>After typing in the input box, press <b>Enter</b> or click out of the box to start conversion.</li>
+		<li>Inputs of multiple words are supported, but capitalization, numerals, and punctuation are not preserved.</li>
+		<li>Numbers will always be spelled out, and <i>very</i> long numbers rarely work correctly.</li>
+		<li>Abbreviations rarely work. Capitalization will not change anything.</li>
+		<li>Many popular trademarks will work.</li>
+		<li>The vowels in the output might be different than expected (since the ARPAbet conversion model uses a specific accent). This is acceptable.</li>
+		<li>Hyphens where phonemes may get confused (as per my description of the reform) are not automatically added.</li>
+		<li>The converter will attempt to convert words it doesn't recognize into something that can reasonably be spoken, including complete gibberish. Play around with this if you want.</li>
+	</ul>
+
+	<script>
+		const inputText = document.getElementById("input");
+		const outputText = document.getElementById("output");
+	
+		const options = {method: 'GET', headers: {accept: 'application/json'}};
+		
+		const toReformSet = {
+			"AA": "o",
+			"AH": "o",
+			"AE": "a",
+			"AH": "u",
+			"AO": "o",
+			"AW": "aw",
+			"AX": "u",
+			"AXR": "ur",
+			"AY": "oy",
+			"EH": "e",
+			"ER": "ur",
+			"EY": "ey",
+			"IH": "i",
+			"IX": "i",
+			"IY": "iy",
+			"OW": "uw",
+			"OY": "uwy",
+			"UH": "uu",
+			"UW": "iw",
+			"UX": "iw",
+			"B": "b",
+			"CH": "c",
+			"D": "d",
+			"DH": "dd",
+			"DX": "t",
+			"EL": "ul",
+			"EM": "um",
+			"EN": "un",
+			"F": "f",
+			"G": "g",
+			"H": "h",
+			"HH": "h",
+			"JH": "j",
+			"K": "k",
+			"L": "l",
+			"M": "m",
+			"N": "n",
+			"NG": "nn",
+			"NX": "nt",
+			"P": "p",
+			"Q": "",
+			"R": "r",
+			"S": "s",
+			"SH": "ss",
+			"T": "t",
+			"TH": "tt",
+			"V": "v",
+			"W": "w",
+			"WH": "w",
+			"Y": "y",
+			"Z": "z",
+			"ZH": "zz"
+		};
+		
+		async function fetchArpabet(input) {
+			console.log("REQUEST SENT TO " + input);
+			let res = await fetch(input, options);
+			let data = await res.json();
+			console.log(data);
+			return data;
+		}
+		
+		async function arpabetOf(input) {
+			if (input == "") { return ""; }
+			let word = input.replace(/ /g, '%20');
+			let url = "https://api.uberduck.ai/g2p?text=" + word;
+
+			let data = await fetchArpabet(url);
+			let result = data["arpabet"];
+			console.log(result);
+			return result;
+		};
+		
+		async function toReform(input) {
+			let arpabet = await arpabetOf(input);
+			arpabet = arpabet.replace(/[\.!,0123]/g, '');
+			if (arpabet == "" || arpabet == "{}") {return "";}
+			let words = arpabet.match(/\{([^}]+)\}/g);
+			for (let i=0;i<words.length;i++) {words[i] = words[i].replace(/[{}0123]/g, '');};
+			for (i=0;i<words.length;i++) {
+				let phonemes = words[i].split(' ');
+				for (let j=0;j<phonemes.length;j++) {phonemes[j] = toReformSet[phonemes[j]];};
+				words[i] = phonemes.join('');
+			};
+			let output = words.join(' ');
+			console.log(output);
+			return output;
+		};
+		
+		inputText.onchange = async () => {
+			outputText.innerHTML = "<i>Pending...</i>";
+			let output = await toReform(inputText.value);
+			if (output == "") {
+				outputText.innerHTML = "<i>Blank output.</i>";
+			} else {
+				outputText.innerHTML = output;
+			};
+		};
+	</script>
+</body>
+
+</html>
