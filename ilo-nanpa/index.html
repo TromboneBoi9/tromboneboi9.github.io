@@ -1,0 +1,120 @@
+<html>
+	<head>
+		<title>ilo nanpa pi jan Tolonpon</title>
+		<link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<div id="disp">
+			<span id="disp1">ala</span><br>
+			<span id="disp2" class="l">0</span>
+		</div>
+		<div id="pad">
+			<button style="left:0%;top:0%;" onclick="add(-100)">weka ale</button>
+			<button style="left:20%;top:0%;" onclick="add(100)">pana ale</button>
+			<button style="left:0%;top:20%;" onclick="add(-20)">weka mute</button>
+			<button style="left:20%;top:20%;" onclick="add(20)">pana mute</button>
+			<button style="left:0%;top:40%;" onclick="add(-5)">weka luka</button>
+			<button style="left:20%;top:40%;" onclick="add(5)">pana luka</button>
+			<button style="left:0%;top:60%;" onclick="add(-2)">weka tu</button>
+			<button style="left:20%;top:60%;" onclick="add(2)">pana tu</button>
+			<button style="left:0%;top:80%;" onclick="add(-1)">weka wan</button>
+			<button style="left:20%;top:80%;" onclick="add(1)">pana wan</button>
+			
+			<button style="left:40%;top:40%;" onclick="mult(2)">tu nanpa</button>
+			<button style="left:40%;top:60%;" onclick="mult(1/2)">kipisi nanpa</button>
+			
+			<button style="left:40%;top:0%;" onclick="set(0)">o ala</button>
+			<button style="left:40%;top:20%;" onclick="inv()">ante nanpa</button>
+			
+			<button style="left:80%;top:0%;" onclick="timerStart()">open tenpo</button>
+			<button style="left:80%;top:20%;" onclick="timerStop()">pini tenpo</button>
+			
+			<button style="left:80%;top:80%;color:blue;" onclick="infoShow()">seme</button>
+		</div>
+		<div id="info" class="l" hidden>
+			<select id="info-select" onchange="infoLang()">
+				<option value="tp" selected>toki pona</option>
+				<option value="en">English</option>
+        <option value="eo">Esperanto</option>
+			</select>
+			<!-- toki pona info -->
+			<span id="info-tp">
+				<p>ni li <u>ilo nanpa</u>, ona li sona e nanpa li ken nanpa e nanpa e tenpo kin. ona li pali tan jan Tolonpon.</p>
+				<p>selo pi ilo ni li kepeken e nasin sitelen pi sitelen pona. lipu sona pi sitelen pona li lon <a href="https://sona.pona.la/wiki/sitelen_pona#Glyphs">ni</a>.</p>
+				<table>
+					<tr>
+						<th>pana <i>X</i></th><td>li pana e <i>X</i> tawa nanpa sewi.</td>
+						<th>weka <i>X</i></th><td>li weka e <i>X</i> tan nanpa sewi.</td>
+					</tr>
+					<tr>
+						<th>o ala</th><td>li ala e nanpa sewi.</td>
+						<th>ante nanpa</th><td>nanpa sewi li nanpa ma la ona li nanpa weka; nasin ante li lon kin.</td>
+					</tr>
+					<tr>
+						<th>tu nanpa</th><td>li pana e nanpa sewi tawa nanpa sewi.</td>
+						<th>kipisi nanpa</th><td>li kipisi e nanpa sewi tawa ijo tu.</td>
+					</tr>
+					<tr>
+						<th>open tenpo</th><td>li open lili nanpa tawa ala.</td>
+						<th>pini tenpo</th><td>li pini e lili nanpa.</td>
+					</tr>
+				</table>
+				<p><button onclick="infoShow()" style="color:blue;">o weka e lipu ni</button></p>
+				<p>tenpo 2024/02/06. ijo lawa ni li tan <a href="https://ilonanpa.sadale.net/">ilo nanpa pi jan Sate</a>. pali ni li pini ala.</p>
+			</span>
+			<!-- english info -->
+			<span id="info-en" hidden>
+				<p>This is <u>ilo nanpa</u> (tool of numbers), it's a calculator/timer focusing on the toki pona numbering system. It was created by jan Tolonpon.</p>
+				<p>The interface is in toki pona's hieroglyphic writing system known as sitelen pona (good writing). A chart can be found <a href="https://sona.pona.la/wiki/sitelen_pona#Glyphs">here</a>.</p>
+				<table>
+					<tr>
+						<th>pana <i>X</i></th><td>Adds <i>X</i> to the display number.</td>
+						<th>weka <i>X</i></th><td>Subtracts <i>X</i> from the display number.</td>
+					</tr>
+					<tr>
+						<th>o ala</th><td>Clears the display to zero.</td>
+						<th>ante nanpa</th><td>The display number is inverted, i.e. negative becomes positive and vice versa.</td>
+					</tr>
+					<tr>
+						<th>tu nanpa</th><td>Multiplies the display number by two.</td>
+						<th>kipisi nanpa</th><td>Divides the display number by two.</td>
+					</tr>
+					<tr>
+						<th>open tenpo</th><td>Starts the timer, from the display number to zero.</td>
+						<th>pini tenpo</th><td>Stops the timer early.</td>
+					</tr>
+				</table>
+				<p><button onclick="infoShow()" style="color:blue;">Close this page</button></p>
+				<p>Feb. 6, 2024. Idea from <a href="https://ilonanpa.sadale.net/">jan Sate's <i>ilo nanpa</i></a>. This is a work in progress.</p>
+			</span>
+      <!-- esperanto info -->
+      <span id="info-eo" hidden>
+        <p>Ĉi tio estas <u>ilo nanpa</u> (ilo de nombroj), ĝi estas kalkulilon/tempigilon, kiu fokusita sur la Tokipona nombrosistemo. Ĝi estis kreita de jan Tolonpon.</p>
+        <p>La interfaco estas en la hieroglifa skribsistemo de Tokipono, sitelen pona (bona skribo). Diagramo troveblas <a href="https://sona.pona.la/wiki/sitelen_pona#Glyphs">ĉi tien</a>.</p>
+        <table>
+          <tr>
+            <th>pana <i>X</i></th><td>Adicias <i>X</i> al la montronombro.</td>
+            <th>weka <i>X</i></th><td>Subtrahas <i>X</i> de la montronombro.</td>
+          </tr>
+          <tr>
+            <th>o ala</th><td>Forigas la montronombron al nulo.</td>
+            <th>ante nanpa</th><td>Inversas la montronombron, t.e. negativa fariĝas pozitiva kaj inverse.</td>
+          </tr>
+          <tr>
+            <th>tu nanpa</th><td>Multiplikas la montronombron per du.</td>
+            <th>kipisi nanpa</th><td>Dividas la montronombron per du.</td>
+          </tr>
+          <tr>
+            <th>open tenpo</th><td>Startas la tempigilon, de montronumbro ĝis nulo.</td>
+            <th>pini tenpo</th><td>Haltigas la tempigilon frue.</td>
+          </tr>
+        </table>
+        <p><button onclick="infoShow()" style="color:blue;">Fermu ĉi tiu paĝon</button></p>
+        <p>6 feb, 2024. Ideo el <a href="https://ilonanpa.sadale.net/"><i>ilo nanpa</i> de jan Sate</a>. Ĉi tio estas laboro en progreso.</p>
+      </span>
+		</div>
+		
+		<script src="./script.js"></script>
+	</body>
+</html>
