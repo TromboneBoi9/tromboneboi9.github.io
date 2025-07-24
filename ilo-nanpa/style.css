@@ -15,27 +15,32 @@ body * {
   body * {font-size: 18pt;}
 }
 .l,.l * {font-family:sans-serif;}
+.s,.s * {font-family:sitelenpona;}
 div {
   background-color:white;
   border:2px solid black;
   padding:10px;
   margin:5px;
 }
-button,select {
+button {
   background-color:white;
   border:2px solid black;
   padding:5px;
   margin:5px;
-  width:18%;
+  width:23%;
+}
+#info-select,#close {
+  background-color:white;
+  border:2px solid black;
+  padding:5px;
+  margin:5px;
+  width:200px;
 }
 div * {position:absolute;}
-button:hover {background-color:lightgray;}
-#disp {top:10%;left:20%;width:60%;height:20%;}
+button:hover,#close:hover {background-color:lightgray;}
+#disp {top:10%;left:20%;width:60%;height:20%;overflow-y:scroll;}
 #pad {top:40%;left:20%;width:60%;height:40%;}
 #info {top:10%;left:10%;width:80%;height:80%;overflow-y:scroll;}
 #info * {font-size:18pt;position:static;}
 td,th {padding:10px;}
 th {text-align:right;}
-
-#disp1 {top:0%;}
-#disp2 {top:50%;}
