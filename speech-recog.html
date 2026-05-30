@@ -67,7 +67,7 @@
 			statusText.innerHTML = "Inactive";
 		}
 		recognition.onerror = (event) => {
-			console.log(event.error);
+			console.log('error:' + event.error);
 		}
 		btnStartRecord.addEventListener('click', () => {
 			recognition.start();
